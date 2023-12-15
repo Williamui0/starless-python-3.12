@@ -3,11 +3,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.ndimage as ndim
-import scipy.misc as spm
+import imageio as spm
 import random,sys,time,os
 import datetime
+from skimage import transform
 
-import multiprocessing as multi
+import multiprocess as multi
 import ctypes
 
 import logging
@@ -313,7 +314,7 @@ def rgbtosrgb(arr):
     arr[mask] **= 1/2.4
     arr[mask] *= 1.055
     arr[mask] -= 0.055
-    arr[-mask] *= 12.92
+    arr[~mask] *= 12.92
 
 
 # convert from srgb to linear rgb
@@ -323,12 +324,14 @@ def srgbtorgb(arr):
     arr[mask] += 0.055
     arr[mask] /= 1.055
     arr[mask] **= 2.4
-    arr[-mask] /= 12.92
+    arr[~mask] /= 12.92
 
+scale_factor=2.0
 
 logger.debug("Loading textures...")
 if SKY_TEXTURE == 'texture':
     texarr_sky = spm.imread('textures/bgedit.jpg')
+
     # must convert to float here so we can work in linear colour
     texarr_sky = texarr_sky.astype(float)
     texarr_sky /= 255.0
@@ -338,7 +341,9 @@ if SKY_TEXTURE == 'texture':
     if not LOFI:
         #   maybe doing this manually and then loading is better.
         logger.debug("(zooming sky texture...)")
-        texarr_sky = spm.imresize(texarr_sky,2.0,interp='bicubic')
+        #texarr_sky = transform.resize(texarr_sky,2.0,2.0,interp='bicubic')
+        texarr_sky = transform.resize(texarr_sky, (texarr_sky.shape[0] * scale_factor, texarr_sky.shape[1] * scale_factor), mode='reflect', anti_aliasing=True)
+        
         # imresize converts back to uint8 for whatever reason
         texarr_sky = texarr_sky.astype(float)
         texarr_sky /= 255.0
