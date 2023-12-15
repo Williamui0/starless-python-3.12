@@ -26,4 +26,6 @@ It is still in development and will be presented on my site along with [my real 
 
 ## Installation and usage
 
-Please refer to the [Wiki](https://github.com/rantonels/starless/wiki).
+cd starles
+pip install -r requirements.txt
+python tracer.py
