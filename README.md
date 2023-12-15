@@ -26,6 +26,30 @@ It is still in development and will be presented on my site along with [my real 
 
 ## Installation and usage
 
-cd starles
-pip install -r requirements.txt
+### Instalación
+
+1. Clona este repositorio:
+
+    ```bash
+    git clone https://github.com/tu-usuario/starless.git
+    ```
+
+2. Cambia al directorio del proyecto:
+
+    ```bash
+    cd starless
+    ```
+
+3. Instala las dependencias:
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+### Uso
+
+Ejecuta el raytracer con:
+
+```bash
 python tracer.py
+
