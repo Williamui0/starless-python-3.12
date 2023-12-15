@@ -1,4 +1,7 @@
 matplotlib
 numpy
-Pillow
+pillow
 scipy
+multiprocess
+scikit-image
+imageio
